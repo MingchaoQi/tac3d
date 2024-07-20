@@ -69,7 +69,7 @@ class Tac3DPublisher(Node):
         if data is not None:
             msg.data = float(data)  # float of ROS2
             self.publisher_float.publish(msg)
-            self.get_logger().info(f'发布 {frame_name} 数据:{msg}')
+            # self.get_logger().info(f'发布 {frame_name} 数据:{msg}')
         else:
             self.get_logger().warn(f'未能获取到有效的 {frame_name} 数据或数据不完整')
 
@@ -81,7 +81,7 @@ class Tac3DPublisher(Node):
             msg.y = float(data[1])
             msg.z = float(data[2])
             self.publisher_array.publish(msg)
-            self.get_logger().info(f'发布 {frame_name} 数据: {msg.x}, {msg.y}, {msg.z}')
+            # self.get_logger().info(f'发布 {frame_name} 数据: {msg.x}, {msg.y}, {msg.z}')
         else:
             self.get_logger().warn(f'未能获取到有效的 {frame_name} 数据或数据不完整')
 
@@ -93,7 +93,7 @@ class Tac3DPublisher(Node):
             msg.row2 = [data[i][1] for i in range(400)]
             msg.row3 = [data[i][2] for i in range(400)]
             self.publisher_cloud.publish(msg)
-            self.get_logger().info(f'发布 {frame_name} 数据: row1={msg.row1}, row2={msg.row2}, row3={msg.row3}')
+            # self.get_logger().info(f'发布 {frame_name} 数据: row1={msg.row1}, row2={msg.row2}, row3={msg.row3}')
         else:
             self.get_logger().warn(f'未能获取到有效的 {frame_name} 数据或数据不完整')
 
