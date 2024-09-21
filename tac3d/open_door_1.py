@@ -16,22 +16,10 @@ class PathPlanningNode(Node):
         self.first_message_received = False  # 用于标记是否已经接收到第一次消息
         # self.goal_pos = [0.45717, 0.08653, 0.31973]
         # self.goal_pos = [0.45717, 0.08653-0.2, 0.31973]
-        self.goal_pos = [0.64171, -0.47511, 0.36685]  # 门把手的目标位置
+        self.goal_pos = [0.58577, -0.50593, 0.36816]  # 门把手的目标位置
         self.door_pos = [0.5, 0.5, 0.5]
         self.cabinet_pos = [0.5, 0.5, 0.5]
         self.current_index = 0
-
-        # 初始化状态
-        self.target_pose = {
-            "drawer_handle_pose": [0.5, 0.0, 0.3],
-            "cup_pose": [0.4, 0.2, 0.3],
-            "target_pose": [0.3, -0.2, 0.4],
-        }
-
-        self.current_state = 0
-
-        # 预定义的位姿
-        self.drawer_pull_distance = 0.2  # 抽屉拉动距离
 
         self.x, self.y, self.z = [], [], []  # 轨迹的坐标
 

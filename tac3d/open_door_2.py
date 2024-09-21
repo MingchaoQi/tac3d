@@ -16,11 +16,11 @@ class OpenDoor(Node):
         self.index = 0
 
         # 圆弧轨迹参数
-        self.center = [0.28577, -0.50593, 0.36816]
+        self.center = [0.30577, -0.51593, 0.36816]
         self.theta_start = 0
-        self.theta_end = np.pi * 5 / 12
+        self.theta_end = np.pi * 87 / 180
         self.num_points = 2000
-        self.radius = 0.3
+        self.radius = 0.28
 
         self.first_message_received = False  # 还未收到位姿信息
 
@@ -97,7 +97,7 @@ class OpenDoor(Node):
         ]
 
         # 生成从初始点到圆弧起点的线性过渡轨迹
-        transition_points = np.linspace(self.init_pose, arc_start_point, 2000)
+        transition_points = np.linspace(self.init_pose, arc_start_point, 100)
         return transition_points
 
     def generate_arc_points(self):
