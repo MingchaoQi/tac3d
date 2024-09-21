@@ -11,7 +11,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
     ],
-    py_modules=['PyTac3D'],
+    py_modules=['PyTac3D','motion_planning_v3'],
     install_requires=['setuptools'],
     package_dir={'':'.'},
     zip_safe=True,
@@ -26,6 +26,8 @@ setup(
             'listener = tac3d.subscriber_member_function:main',
             'initial = tac3d.initial:main',
             'listener_node = tac3d.listener:main',
+            'A_star_pose_command = tac3d.A_star_pose_command:main',
+            'open_door = tac3d.open_door:main',
             ],
     },
 )
