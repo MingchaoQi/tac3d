@@ -19,7 +19,7 @@ class PathPlanningNode(Node):
         self.first_message_received = False  # 用于标记是否已经接收到第一次消息
         self.door_pos = [0.5, 0.5, 0.5]
         self.cabinet_pos = [0.5, 0.5, 0.5]
-        self.goal_pos = [0.50260, -0.51822, 0.26422]  # 门把手的目标位置
+        self.goal_pos = [0.47683, -0.51596, 0.27926]  # 杯子的目标位置
         self.current_index = 0
 
         # 工具坐标系相对于基坐标系的四元数 (0, 1, 0, 0)
@@ -39,9 +39,9 @@ class PathPlanningNode(Node):
         if not self.first_message_received:
             # 计算偏移后的初始位置
             offset_pose = [
-                self.init_pose[0],  # 保持x不变
-                self.init_pose[1] + 0.05,  # y方向偏移10cm
-                self.init_pose[2] + 0.05,  # z方向偏移10cm
+                self.init_pose[0] + 0.10,  # x方向偏移10cm
+                self.init_pose[1] + 0.10,  # y方向偏移10cm
+                self.init_pose[2] + 0.10,  # z方向偏移10cm
             ]
 
             # 生成从初始位置到偏移后位置的平滑轨迹（使用三次样条插值）
@@ -54,7 +54,7 @@ class PathPlanningNode(Node):
 
             # 姿态插值在 1 秒内完成
             smooth_quat = self.generate_smooth_orientation_trajectory(
-                current_quat, target_quat, tf=5.0, freq=200
+                current_quat, target_quat, tf=10.0, freq=300
             )
 
             # 从偏移后的位置规划到目标位置
@@ -119,7 +119,7 @@ class PathPlanningNode(Node):
         """
         计算目标末端姿态的四元数
         """
-        angles = [-90, 21.68]  # 绕 Z 轴 -90 度，绕 X 轴 -25 度
+        angles = [-90, 26.00]  # 绕 Z 轴 -90 度，绕 X 轴 -25 度
         angles_rad = np.radians(angles)  # 将角度转换为弧度
 
         # 创建旋转对象，旋转顺序为 z -> x，表示先绕 Z 再绕 X，固定坐标系旋转
