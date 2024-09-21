@@ -19,7 +19,7 @@ class PathPlanningNode(Node):
         self.first_message_received = False  # 用于标记是否已经接收到第一次消息
         self.door_pos = [0.5, 0.5, 0.5]
         self.cabinet_pos = [0.5, 0.5, 0.5]
-        self.goal_pos = [0.47683, -0.51596, 0.27926]  # 杯子的目标位置
+        self.goal_pos = [0.47983, -0.51596, 0.27926]  # 杯子的目标位置
         self.current_index = 0
 
         # 工具坐标系相对于基坐标系的四元数 (0, 1, 0, 0)

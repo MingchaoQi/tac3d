@@ -27,7 +27,8 @@ setup(
             "listener_node = tac3d.listener:main",
             "open_door_1 = tac3d.open_door_1:main",
             "open_door_2 = tac3d.open_door_2:main",
-            "open_door_pick_1 = tac3d.open_door_pick_1:main",
+            "open_door_3 = tac3d.open_door_3:main",
+            "open_door_4 = tac3d.open_door_4:main",
         ],
     },
 )
