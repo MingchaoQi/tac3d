@@ -79,8 +79,8 @@ class Orientation(Node):
         return vx, vy
     
     def destroy_node(self): 
-        self.out.release()
-        super().destroy_node()
+    	self.out.release()
+    	super().destroy_node()
 
 def main(args=None):
     rclpy.init(args=args)
