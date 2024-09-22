@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Pose
 from motion_planning_v3 import Motion_planning
+import subprocess
 
 
 class PathPlanningNode(Node):
@@ -52,7 +53,8 @@ class PathPlanningNode(Node):
             self.pub.publish(pose)
             self.current_index += 1
         else:
-            self.timer.cancel()
+            self.timer.cancel()  # 取消定时器
+            subprocess.run(["pkill", "-f", "open_door_1"])  # 强制关闭节点
 
     def trace_trajectory_Astar(self, d0, goal_pos, tf, freq, gri_open=True):
         plan = Motion_planning(

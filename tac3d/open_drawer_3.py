@@ -4,6 +4,7 @@ from geometry_msgs.msg import Pose
 from motion_planning_v3 import Motion_planning
 from scipy.interpolate import CubicSpline
 import numpy as np
+import subprocess
 
 
 class PathPlanningNode(Node):
@@ -28,9 +29,9 @@ class PathPlanningNode(Node):
         # 处理接收到的消息
         self.init_pose = [msg.position.x, msg.position.y, msg.position.z]
         if not self.first_message_received:
-            # 1. 生成向上运动10cm的轨迹
+            # 1. 生成向上运动8cm的轨迹
             self.x, self.y, self.z = self.generate_initial_upward_trajectory(
-                d0=self.init_pose, delta_z=0.1, tf=2.0, freq=300
+                d0=self.init_pose, delta_z=0.08, tf=2.0, freq=300
             )
 
             # 2. 生成沿y轴正方向运动10cm的轨迹
@@ -82,6 +83,7 @@ class PathPlanningNode(Node):
             self.current_index += 1
         else:
             self.timer.cancel()
+            subprocess.run(["pkill", "-f", "open_drawer_3"])  # 强制关闭节点
 
     def generate_initial_upward_trajectory(self, d0, delta_z, tf, freq):
         """生成向上移动10cm的轨迹，使用三次样条插值"""

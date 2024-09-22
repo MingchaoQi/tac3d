@@ -3,6 +3,7 @@ from rclpy.node import Node
 from geometry_msgs.msg import Pose
 import numpy as np
 from scipy.interpolate import CubicSpline
+import subprocess
 
 
 class PathPlanningNode(Node):
@@ -32,7 +33,7 @@ class PathPlanningNode(Node):
         if not self.first_message_received:
             # 使用三次样条插值生成轨迹
             self.x, self.y, self.z = self.trace_trajectory_spline(
-                start=self.init_pose, goal=self.goal_pos, tf=10.0, freq=100
+                start=self.init_pose, goal=self.goal_pos, tf=10.0, freq=200
             )
             # 取消订阅
             self.destroy_subscription(self.sub_1)
@@ -58,6 +59,7 @@ class PathPlanningNode(Node):
             self.current_index += 1
         else:
             self.timer.cancel()
+            subprocess.run(["pkill", "-f", "open_door_4"])  # 强制关闭节点
 
     def trace_trajectory_spline(self, start, goal, tf, freq):
         # 根据给定的起点和终点生成三次样条插值路径

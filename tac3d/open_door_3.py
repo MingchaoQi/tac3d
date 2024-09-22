@@ -5,6 +5,7 @@ from motion_planning_v3 import Motion_planning
 import numpy as np
 from scipy.interpolate import CubicSpline
 from scipy.spatial.transform import Rotation as R, Slerp
+import subprocess
 
 
 class PathPlanningNode(Node):
@@ -150,6 +151,7 @@ class PathPlanningNode(Node):
             self.current_index += 1
         else:
             self.timer.cancel()
+            subprocess.run(["pkill", "-f", "open_door_3"])  # 强制关闭节点
 
     def trace_trajectory_Astar(self, d0, goal_pos, tf, freq, gri_open=True):
         plan = Motion_planning(
