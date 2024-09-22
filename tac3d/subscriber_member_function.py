@@ -21,22 +21,28 @@ from std_msgs.msg import Float32
 class Tac3DSubscriber(Node):
 
     def __init__(self):
-        super().__init__('tac3d_subscriber')
+        super().__init__("tac3d_subscriber")
         self.subscription_array = self.create_subscription(
-            Array3, 'array_topic', self.callback_fr, 10)
+            Array3, "array_topic", self.callback_fr, 10
+        )
         self.subscription_cloud = self.create_subscription(
-            Cloud, 'cloud_topic', self.callback_cloud, 10)
+            Cloud, "cloud_topic", self.callback_cloud, 10
+        )
         self.subscription_float = self.create_subscription(
-            Float32, 'float_topic', self.callback_float, 10)
+            Float32, "float_topic", self.callback_float, 10
+        )
 
     def callback_fr(self, msg):
-        self.get_logger().info(f'Received Fr data: {msg.x}, {msg.y}, {msg.z}')
+        self.get_logger().info(f"Received Fr data: {msg.x}, {msg.y}, {msg.z}")
 
     def callback_cloud(self, msg):
-        self.get_logger().info(f'Received Cloud data: row1={msg.row1}, row2={msg.row2}, row3={msg.row3}')
+        self.get_logger().info(
+            f"Received Cloud data: row1={msg.row1}, row2={msg.row2}, row3={msg.row3}"
+        )
 
     def callback_float(self, msg):
-        self.get_logger().info(f'Received Float data: {msg.data}')
+        self.get_logger().info(f"Received Float data: {msg.data}")
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -45,5 +51,6 @@ def main(args=None):
     tac3d_subscriber.destroy_node()
     rclpy.shutdown()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

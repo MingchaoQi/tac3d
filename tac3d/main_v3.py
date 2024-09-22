@@ -5,6 +5,7 @@ from scipy.spatial.transform import Rotation as R
 
 from motion_planning_v3 import Motion_planning
 
+
 def trace_trajectory_Astar(d0, goal_pos, tf, freq, gri_open=True):
     plan = Motion_planning(dx=0.01, dy=0.01, dz=0.01, gripper_open=gri_open)
     Points_recover = plan.path_searching(start=d0, end=goal_pos)
@@ -101,7 +102,6 @@ action_dim = env.action_dim  # in robot_env.py
 neutral = np.zeros(action_dim)
 
 
-
 def rotate_mat(axis, radian):
     """
     利用旋转矩阵并结合知识图谱中提取的相关信息，计算门把手的最终运动位置
@@ -123,7 +123,9 @@ rot_matrix = rotate_mat(rand_axis, yaw)
 # 计算点绕着轴运动后的点(变换到门坐标系)
 # door_joint_pos = env.door_joint_pos # 获取关节位置坐标有问题，现在没有找到具体原因
 # 但是通过另一种方式获得joint的位置，就是通过与door的相对位置关系
-door_joint_pos = env.door_pos - np.array([0.225, 0, 0])  # 这里直接手动输入joint和door的相对位置关系，调用知识图谱中信息如下
+door_joint_pos = env.door_pos - np.array(
+    [0.225, 0, 0]
+)  # 这里直接手动输入joint和door的相对位置关系，调用知识图谱中信息如下
 # door_joint_pos = env.door_pos - np.array(joint_pos["door"])
 print("门铰链的初始位置：", env.door_joint_pos)
 print("门把手初始位置：", env._handle_xpos)
@@ -183,8 +185,8 @@ for j in range(len(obs)):
     pos_y.append(obs[j]["robot0_eef_pos"][1])
     pos_z.append(obs[j]["robot0_eef_pos"][2])
 
-ax1 = plt.axes(projection='3d')
-ax1.plot3D(pos_x, pos_y, pos_z, 'blue')
+ax1 = plt.axes(projection="3d")
+ax1.plot3D(pos_x, pos_y, pos_z, "blue")
 plt.figure()
 
 force = force1

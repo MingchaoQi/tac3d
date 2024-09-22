@@ -15,7 +15,7 @@ class PathPlanningNode(Node):
         self.sub_2 = self.create_subscription(Pose, "moveto", self.callback_grasp, 10)
         self.timer = self.create_timer(0.01, self.timer_callback)
         self.first_message_received = False  # 标记是否已经接收到第一次消息
-        self.goal_pos = [0.47683, 0, 0.37926]  # 杯子放置的目标位置
+        self.goal_pos = [0.47683, 0, 0.37926]  # 放置杯子的目标位置
         self.current_index = 0
         self.x, self.y, self.z = [], [], []  # 轨迹的坐标
         self.orientation = None  # 用于存储初始姿态
@@ -30,10 +30,24 @@ class PathPlanningNode(Node):
             msg.orientation.w,
         ]  # 保存姿态
         if not self.first_message_received:
-            # 使用三次样条插值生成轨迹
-            self.x, self.y, self.z = self.trace_trajectory_spline(
-                start=self.init_pose, goal=self.goal_pos, tf=10.0, freq=100
+            # 生成向上移动5cm的轨迹
+            upward_goal = [
+                self.init_pose[0],
+                self.init_pose[1],
+                self.init_pose[2] + 0.05,
+            ]
+            upward_x, upward_y, upward_z = self.trace_trajectory_spline(
+                start=self.init_pose, goal=upward_goal, tf=2.0, freq=100
             )
+            # 生成从上升5cm后的轨迹到目标位置的轨迹
+            main_x, main_y, main_z = self.trace_trajectory_spline(
+                start=upward_goal, goal=self.goal_pos, tf=8.0, freq=100
+            )
+            # 将两个轨迹合并
+            self.x = np.concatenate((upward_x, main_x))
+            self.y = np.concatenate((upward_y, main_y))
+            self.z = np.concatenate((upward_z, main_z))
+
             # 取消订阅
             self.destroy_subscription(self.sub_1)
             self.first_message_received = True

@@ -223,6 +223,16 @@ class Motion_planning:
             Recover = np.append(start, Recover).reshape(-1, 3)
             Recover = np.append(Recover, end).reshape(-1, 3)
 
+            # 插值生成10个点
+            last_point = Recover[-2]  # 倒数第二个点，即插值起始点
+            interpolation_points = np.linspace(last_point, end, num=12)[
+                1:-1
+            ]  # 生成插值点，去掉首尾点
+            Recover = np.append(
+                Recover[:-1], interpolation_points, axis=0
+            )  # 添加插值点
+            Recover = np.append(Recover, [end], axis=0)  # 再加上最终的end点
+
             return Recover
         else:
             print("the path is not found!")
