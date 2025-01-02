@@ -40,6 +40,8 @@ class PathPlanningNode(Node):
         pass
 
     def timer_callback(self):
+        if len(self.x) == 0:
+            return
         if self.current_index < len(self.x):
             pose = Pose()
             pose.position.x = self.x[self.current_index]
@@ -52,6 +54,7 @@ class PathPlanningNode(Node):
 
             self.pub.publish(pose)
             self.current_index += 1
+            # print(f"open door1, current_index: {self.current_index}, pose{pose}")
         else:
             self.timer.cancel()  # 取消定时器
             subprocess.run(["pkill", "-f", "open_door_1"])  # 强制关闭节点

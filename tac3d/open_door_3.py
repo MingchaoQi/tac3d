@@ -135,6 +135,8 @@ class PathPlanningNode(Node):
         pass
 
     def timer_callback(self):
+        if len(self.x) == 0:
+            return
         if self.current_index < len(self.x):
             pose = Pose()
             pose.position.x = self.x[self.current_index]

@@ -16,7 +16,8 @@ class PathPlanningNode(Node):
         self.sub_2 = self.create_subscription(Pose, "moveto", self.callback_grasp, 10)
         self.timer = self.create_timer(0.01, self.timer_callback)
         self.first_message_received = False  # 标记是否已经接收到第一次消息
-        self.goal_pos = [0.47683, 0, 0.37926]  # 杯子放置的目标位置
+        self.goal_pos = [0.49116, -0.04627, 0.42986]  # 杯子放置的目标位置
+        self.down_distance = 0.03  # 向下移动的距离（3厘米）
         self.current_index = 0
         self.x, self.y, self.z = [], [], []  # 轨迹的坐标
         self.orientation = None  # 用于存储初始姿态
@@ -35,6 +36,8 @@ class PathPlanningNode(Node):
             self.x, self.y, self.z = self.trace_trajectory_spline(
                 start=self.init_pose, goal=self.goal_pos, tf=10.0, freq=200
             )
+            # 追加向下移动的轨迹
+            self.append_downward_trajectory()
             # 取消订阅
             self.destroy_subscription(self.sub_1)
             self.first_message_received = True
@@ -43,6 +46,8 @@ class PathPlanningNode(Node):
         pass
 
     def timer_callback(self):
+        if len(self.x) == 0:
+            return
         if self.current_index < len(self.x):
             pose = Pose()
             pose.position.x = self.x[self.current_index]
@@ -74,6 +79,32 @@ class PathPlanningNode(Node):
         z_traj = z_spline(t)
 
         return x_traj, y_traj, z_traj
+
+    def append_downward_trajectory(self):
+        # 添加向下移动的轨迹
+        if len(self.x) == 0:
+            return
+        # 获取目标位置的最后一帧坐标
+        final_x = self.x[-1]
+        final_y = self.y[-1]
+        final_z = self.z[-1]
+
+        # 向下移动的目标位置
+        downward_z = final_z - self.down_distance
+        downward_z = max(0.0, downward_z)  # 确保不会超出边界
+
+        # 插值生成额外的 z 轨迹
+        downward_steps = 100  # 向下移动的分段数量
+        z_downward = np.linspace(final_z, downward_z, downward_steps)
+
+        # 将 x 和 y 保持不变，扩展到新的长度
+        x_downward = [final_x] * downward_steps
+        y_downward = [final_y] * downward_steps
+
+        # 将新的轨迹追加到原始轨迹中
+        self.x = np.concatenate((self.x, x_downward))
+        self.y = np.concatenate((self.y, y_downward))
+        self.z = np.concatenate((self.z, z_downward))
 
 
 def main(args=None):

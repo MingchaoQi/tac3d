@@ -18,7 +18,7 @@ class PathPlanningNode(Node):
         self.timer = self.create_timer(0.01, self.timer_callback)
         self.first_message_received = False  # 标志，用于指示是否已接收到第一个消息
         self.goal_pos = [
-            0.45717,
+            0.45217,
             0.09800,
             0.31973,
         ]  # 门把手的目标位置
@@ -46,6 +46,8 @@ class PathPlanningNode(Node):
         pass
 
     def timer_callback(self):
+        if len(self.x) == 0:
+            return
         if self.current_index < len(self.x):
             pose = Pose()
             pose.position.x = self.x[self.current_index]

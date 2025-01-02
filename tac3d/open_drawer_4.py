@@ -17,7 +17,8 @@ class PathPlanningNode(Node):
         self.sub_2 = self.create_subscription(Pose, "moveto", self.callback_grasp, 10)
         self.timer = self.create_timer(0.01, self.timer_callback)
         self.first_message_received = False  # 用于标记是否已经接收到第一次消息
-        self.goal_pos = [0.53553, -0.17246, 0.45436]  # 杯子目标位置
+        # self.goal_pos = [0.63016, -0.18632, 0.38653]  # 杯子目标位置0.36437
+        self.goal_pos = [0.58225, -0.14936, 0.39037]  # 杯子目标位置
         self.door_pos = [0, 0, 0]
         self.cabinet_pos = [0, 0, 0]
         self.current_index = 0
@@ -69,6 +70,8 @@ class PathPlanningNode(Node):
         pass
 
     def timer_callback(self):
+        if len(self.x) == 0:
+            return
         if self.current_index < len(self.x):
             pose = Pose()
             pose.position.x = self.x[self.current_index]

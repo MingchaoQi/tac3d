@@ -1,4 +1,5 @@
 from setuptools import setup
+import os
 
 package_name = "tac3d"
 
@@ -7,10 +8,12 @@ setup(
     version="0.0.0",
     packages=[package_name],
     data_files=[
-        ("share/ament_index/resource_index/packages", ["resource/" + package_name]),
+        ("share/ament_index/resource_index/packages", 
+        ["resource/" + package_name]),
         ("share/" + package_name, ["package.xml"]),
+        (os.path.join('share/', package_name), ['nnmini.pt']),
     ],
-    py_modules=["PyTac3D", "motion_planning_v3"],
+    py_modules=["PyTac3D", "motion_planning_v3",'image_boundary','gs3drecon'],
     install_requires=["setuptools"],
     package_dir={"": "."},
     zip_safe=True,
@@ -32,7 +35,6 @@ setup(
             "open_door_3 = tac3d.open_door_3:main",
             "open_door_4 = tac3d.open_door_4:main",
             "open_drawer_1 = tac3d.open_drawer_1:main",
-            "open_drawer_2 = tac3d.open_drawer_2:main",
             "open_drawer_3 = tac3d.open_drawer_3:main",
             "open_drawer_4 = tac3d.open_drawer_4:main",
         ],
