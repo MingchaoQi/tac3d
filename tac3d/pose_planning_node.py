@@ -37,7 +37,7 @@ class PoseControl(Node):
 
     def simple_transform_and_align(self, current_pose):
         # 固定角度调整（绕y轴旋转）
-        fixed_angle = 0.555  # 固定旋转角度，单位：弧度
+        fixed_angle = 0.575  # 固定旋转角度，单位：弧度
 
         # 生成绕y轴的旋转四元数
         rotation_quat = R.from_euler("y", fixed_angle, degrees=False).as_quat()
